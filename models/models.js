@@ -29,7 +29,7 @@ const Position = sequelize.define('position', {
 
 const Request = sequelize.define('request', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  datetime: {type: DataTypes.DATE, defaultValue: sequelize.fn('now'), allowNull: false},
+  // datetime: {type: DataTypes.DATE, defaultValue: sequelize.fn('now'), allowNull: false},
   description: {type: DataTypes.STRING, allowNull: false},
 });
 
