@@ -22,14 +22,8 @@ const Client = sequelize.define('client', {
   middle_name: {type: DataTypes.STRING},
 });
 
-const Position = sequelize.define('position', {
-  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  name: {type: DataTypes.STRING, allowNull: false},
-});
-
 const Request = sequelize.define('request', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  // datetime: {type: DataTypes.DATE, defaultValue: sequelize.fn('now'), allowNull: false},
   description: {type: DataTypes.STRING, allowNull: false},
 });
 
@@ -54,12 +48,6 @@ Agent.belongsTo(User);
 User.hasOne(Client);
 Client.belongsTo(User);
 
-Position.hasMany(Agent);
-Agent.belongsTo(Position);
-
-Position.hasMany(Client);
-Client.belongsTo(Position);
-
 Agent.hasMany(Request);
 Request.belongsTo(Agent);
 
@@ -79,7 +67,6 @@ module.exports = {
   User,
   Agent,
   Client,
-  Position,
   Request,
   Status,
   Category,
