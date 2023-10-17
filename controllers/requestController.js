@@ -95,6 +95,12 @@ class RequestController {
     });
     return res.json(request);
   }
+
+  async delete(req, res) {
+    const {id} = req.params;
+    const request = await Request.destroy({where: {id}});
+    return res.json(request);
+  }
 }
 
 module.exports = new RequestController();
