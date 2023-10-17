@@ -1,5 +1,6 @@
 const sequelize = require('../db.js');
 const {DataTypes} = require('sequelize');
+const moment = require('moment');
 
 const User = sequelize.define('user', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -25,6 +26,18 @@ const Client = sequelize.define('client', {
 const Request = sequelize.define('request', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   description: {type: DataTypes.STRING, allowNull: false},
+  createdAt: {
+    type: DataTypes.DATE,                   
+    get() {
+      return moment(this.getDataValue('createdAt')).format('D.MM.YYYY HH:mm:ss');
+    }
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    get() {
+      return moment(this.getDataValue('updatedAt')).format('D.MM.YYYY HH:mm:ss');
+    }
+  }
 });
 
 const Status = sequelize.define('status', {
