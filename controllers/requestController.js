@@ -5,7 +5,7 @@ class RequestController {
   async create(req, res, next) {
     try {
       const {description, agentId, clientId, statusId, categoryId, priorityId} = req.body;
-      const request = await Request.create({description, agentId: 1, clientId, statusId: 1, categoryId, priorityId: 2});
+      const request = await Request.create({description, agentId, clientId, statusId: 1, categoryId, priorityId});
       return res.json(request);
     } catch(err) {
       next(ApiError.badRequest(err.message));
@@ -13,11 +13,7 @@ class RequestController {
   }
 
   async getAll(req, res) {
-    let {agentId, clientId, statusId, categoryId, priorityId, limit, page} = req.query;
-
-    page = page || 1;
-    limit = limit || 5;
-    let offset = page * limit - limit;
+    let {agentId, clientId, statusId, categoryId, priorityId} = req.query;
     
     let requests;
     if (!agentId && !clientId && !statusId && !categoryId && !priorityId) {
@@ -44,24 +40,23 @@ class RequestController {
             attributes: {exclude: ['updatedAt', 'createdAt']}
           }
         ],
-        limit,
-        offset
+        exclude: ['updatedAt']
       });
     }
     if (agentId && !clientId && !statusId && !categoryId && !priorityId) {
-      requests = await Request.findAndCountAll({where: {agentId}, limit, offset});
+      requests = await Request.findAndCountAll({where: {agentId}});
     }
     if (!agentId && clientId && !statusId && !categoryId && !priorityId) {
-      requests = await Request.findAndCountAll({where: {clientId}, limit, offset});
+      requests = await Request.findAndCountAll({where: {clientId}});
     }
     if (!agentId && !clientId && statusId && !categoryId && !priorityId) {
-      requests = await Request.findAndCountAll({where: {statusId}, limit, offset});
+      requests = await Request.findAndCountAll({where: {statusId}});
     }
     if (!agentId && !clientId && !statusId && categoryId && !priorityId) {
-      requests = await Request.findAndCountAll({where: {categoryId}, limit, offset});
+      requests = await Request.findAndCountAll({where: {categoryId}});
     }
     if (!agentId && !clientId && !statusId && !categoryId && priorityId) {
-      requests = await Request.findAndCountAll({where: {priorityId}, limit, offset});
+      requests = await Request.findAndCountAll({where: {priorityId}});
     }
     return res.json(requests);
   }
